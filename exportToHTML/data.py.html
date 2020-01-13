@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>data.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+data.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">gspread</span>
+<span class="s0">from </span><span class="s1">oauth2client.service_account </span><span class="s0">import </span><span class="s1">ServiceAccountCredentials</span>
+<span class="s0">from </span><span class="s1">wikihow </span><span class="s0">import </span><span class="s1">wikihow_fetch</span>
+
+
+scope = [<span class="s2">'https://spreadsheets.google.com/feeds'</span><span class="s0">, </span><span class="s2">'https://www.googleapis.com/auth/drive'</span><span class="s1">]</span>
+credentials = ServiceAccountCredentials.from_json_keyfile_name(<span class="s2">&quot;Speadsheet-90944d5c9155.json&quot;</span><span class="s0">, </span><span class="s1">scope)</span>
+gc = gspread.authorize(credentials)
+
+wks = gc.open(<span class="s2">&quot;Database&quot;</span><span class="s1">).sheet1</span>
+
+
+<span class="s0">def </span><span class="s1">wikiadd():</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(</span><span class="s3">100</span><span class="s1">):</span>
+        j = wikihow_fetch()
+        wks.append_row([j[<span class="s3">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">j[</span><span class="s3">1</span><span class="s1">]])</span>
+
+
+
+<span class="s0">def </span><span class="s1">removeblanks():</span>
+    <span class="s0">while True</span><span class="s1">:</span>
+        x = int(input())
+        <span class="s0">if not </span><span class="s1">bool(wks.row_values(x)):</span>
+            wks.delete_row(x)
+
+<span class="s0">def </span><span class="s1">deleterows():</span>
+    <span class="s0">while True</span><span class="s1">:</span>
+        x = input()
+        <span class="s0">if not </span><span class="s1">bool(x):</span>
+            x = j
+        <span class="s0">if </span><span class="s1">x == </span><span class="s2">'.'</span><span class="s1">:</span>
+            x =j+<span class="s3">1</span>
+        <span class="s1">x = int(x)</span>
+        wks.delete_row(x)
+        j = x
+
+
+wikiadd()</pre>
+</body>
+</html>
